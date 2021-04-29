@@ -40,7 +40,7 @@ cat .dupe.out | reviewdog -efm="%f:%l:%c: %m" \
 
 cat .dupe.out | reviewdog -efm="%f:%l:%c: %m" \
       -name="${INPUT_TOOL_NAME}" \
-      -reporter="${INPUT_REPORTER:-github-pr-review}" \
+      -reporter="github-pr-review" \
       -filter-mode="${INPUT_FILTER_MODE:-added}" \
       -fail-on-error="${INPUT_FAIL_ON_ERROR:-false}" \
       -level="${INPUT_LEVEL}" \
