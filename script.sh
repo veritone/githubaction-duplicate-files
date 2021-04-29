@@ -25,13 +25,13 @@ do
   done
 done
 
-echo '::group::🐶 Installing reviewdog ... https://github.com/reviewdog/reviewdog'
+echo '::group::Found duplicate files'
 cat .dupe.out
 echo '::endgroup::'
 
-echo '::group:: Running dupe-files with reviewdog 🐶 ...'
+echo '::group:: Running dupe-files with reviewdog'
 # shellcheck disable=SC2086
-cat .dupe.out | reviewdog -f=golangci-lint \
+cat .dupe.out | reviewdog -efm="%f:%l:%c: %m" \
       -name="${INPUT_TOOL_NAME}" \
       -reporter="${INPUT_REPORTER:-github-pr-check}" \
       -filter-mode="${INPUT_FILTER_MODE:-added}" \
