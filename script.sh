@@ -12,10 +12,10 @@ echo '::endgroup::'
 
 export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
-echo '::group:: Running dupe-files with reviewdog 🐶 ...'
 
+echo Scanning ${INPUT_RIECTORY}
 
-find $dirname -type f  | sed 's_.*/__' | awk -F"__" '{print $1}' | sort | uniq -d |
+find ${INPUT_RIECTORY} -type f  | sed 's_.*/__' | awk -F"__" '{print $1}' | sort | uniq -d |
 while read fileName
 do
   find $dirname -type f | grep "${fileName}" |
@@ -25,6 +25,11 @@ do
   done
 done
 
+echo '::group::🐶 Installing reviewdog ... https://github.com/reviewdog/reviewdog'
+cat .dupe.out
+echo '::endgroup::'
+
+echo '::group:: Running dupe-files with reviewdog 🐶 ...'
 # shellcheck disable=SC2086
 cat .dupe.out | reviewdog -f=golangci-lint \
       -name="${INPUT_TOOL_NAME}" \
