@@ -34,9 +34,16 @@ echo '::group:: Running dupe-files with reviewdog'
 cat .dupe.out | reviewdog -efm="%f:%l:%c: %m" \
       -name="${INPUT_TOOL_NAME}" \
       -reporter="${INPUT_REPORTER:-github-pr-check}" \
-      -filter-mode="${INPUT_FILTER_MODE:-added}" \
       -fail-on-error="${INPUT_FAIL_ON_ERROR:-false}" \
       -level="${INPUT_LEVEL}" \
       ${INPUT_REVIEWDOG_FLAGS}
 
+cat .dupe.out | reviewdog -efm="%f:%l:%c: %m" \
+      -name="${INPUT_TOOL_NAME}" \
+      -reporter="${INPUT_REPORTER:-github-pr-review}" \
+      -filter-mode="${INPUT_FILTER_MODE:-added}" \
+      -fail-on-error="${INPUT_FAIL_ON_ERROR:-false}" \
+      -level="${INPUT_LEVEL}" \
+      ${INPUT_REVIEWDOG_FLAGS}
+      
 echo '::endgroup::'
