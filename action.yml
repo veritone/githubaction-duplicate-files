@@ -28,6 +28,9 @@ inputs:
       Exit code for reviewdog when errors are found [true,false]
       Default is `false`.
     default: 'false'
+  directory:
+    description: 'input directory to scan'
+    default: './sql'
   reviewdog_flags:
     description: 'Additional reviewdog flags'
     default: ''
@@ -46,8 +49,8 @@ runs:
         GOLANGCI_LINT_VERSION: v1.39.0
         # INPUT_<VARIABLE_NAME> is not available in Composite run steps
         # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
+        INPUT_DIRECTORY: ${{ inputs.directory }}
         INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
-        INPUT_GOLANGCI_LINT_FLAGS: ${{ inputs.golangci_lint_flags }}
         INPUT_TOOL_NAME: ${{ inputs.tool_name }}
         INPUT_LEVEL: ${{ inputs.level }}
         INPUT_REPORTER: ${{ inputs.reporter }}
