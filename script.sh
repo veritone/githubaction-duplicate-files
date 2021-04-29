@@ -13,9 +13,9 @@ echo '::endgroup::'
 export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
 
-echo Scanning ${INPUT_RIECTORY}
+echo Scanning ${INPUT_DIRECTORY}
 
-find ${INPUT_RIECTORY} -type f  | sed 's_.*/__' | awk -F"__" '{print $1}' | sort | uniq -d |
+find ${INPUT_DIRECTORY} -type f  | sed 's_.*/__' | awk -F"__" '{print $1}' | sort | uniq -d |
 while read fileName
 do
   find $dirname -type f | grep "${fileName}" |
