@@ -15,14 +15,20 @@ export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
 echo Scanning ${INPUT_DIRECTORY}
 
-find "${INPUT_DIRECTORY}" -type f | sed 's!.*/!!' | sed 's/\(.*_[0-9]*\)__.*/\1/g;t' | sort | uniq -d |
+find "${INPUT_DIRECTORY}" -type f -name "${INPUT_FILE_FIND_PATTERN}" | sed 's!.*/!!' | sed 's/\(.*_[0-9]*\)__.*/\1/g;t' | sort | uniq -d |
+while read prefix
+do
+  find "${INPUT_DIRECTORY}" -type f -name "${INPUT_FILE_FIND_PATTERN}" | grep "${prefix}" |
+  while read fileName
+  do
+    echo "${fileName}:1:1: Duplicate filename -- ${prefix}" >> .dupe.out
+  done
+done
+
+find ${INPUT_DIRECTORY} -type f -name "\"${INPUT_FILE_FIND_PATTERN}\"" | sed 's_.*/__' | awk -F"__" '{print $1}' | sort | grep '\.' |
 while read fileName
 do
-  find $dirname -type f | grep "${fileName}" |
-  while read fname
-  do
-    echo "${fname}:1:1: Duplicate filename for prefix ${fileName}" >> .dupe.out
-  done
+  echo "${fileName}: Invalid version format" >> .dupe.out
 done
 
 echo '::group::Found duplicate files'
