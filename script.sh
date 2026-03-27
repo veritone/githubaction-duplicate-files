@@ -15,13 +15,13 @@ export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
 echo Scanning ${INPUT_DIRECTORY}
 
-find ${INPUT_DIRECTORY} -type f -name "\"${INPUT_FILE_FIND_PATTERN}\"" | sed 's_.*/__' | awk -F"__" '{print $1}' | sort | uniq -d |
-while read fileName
+find "${INPUT_DIRECTORY}" -type f -name "${INPUT_FILE_FIND_PATTERN}" | sed 's!.*/!!' | sed 's/\(.*_[0-9]*\)__.*/\1/g;t' | sort | uniq -d |
+while read prefix
 do
-  find $dirname -type f | grep "${fileName}" |
-  while read fname
+  find "${INPUT_DIRECTORY}" -type f -name "${INPUT_FILE_FIND_PATTERN}" | grep "${prefix}" |
+  while read fileName
   do
-    echo "${fname}:1:1: Duplicate filename for prefix ${fileName}" >> .dupe.out
+    echo "${fileName}:1:1: Duplicate filename -- ${prefix}" >> .dupe.out
   done
 done
 
